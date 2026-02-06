@@ -1,8 +1,6 @@
 import type { NextConfig } from "next";
 
-const assetPrefix = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : undefined;
+const assetPrefix = process.env.NEXT_PUBLIC_ASSET_PREFIX || undefined;
 
 const nextConfig: NextConfig = {
   assetPrefix,
