@@ -69,4 +69,4 @@ public/images/profile.jpg
 - `/booking` Booking flow
 - `/confirmation` Payment confirmation
 - `/charity` Public donation ledger
-- `/admin` Admin dashboard
+- `/talkwithanmoladmin` Admin dashboard

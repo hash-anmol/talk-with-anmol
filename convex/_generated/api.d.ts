@@ -12,9 +12,10 @@ import type * as admin from "../admin.js";
 import type * as availability from "../availability.js";
 import type * as bookings from "../bookings.js";
 import type * as calendar from "../calendar.js";
-import type * as donations from "../donations.js";
+import type * as email from "../email.js";
 import type * as payments from "../payments.js";
 import type * as payments_node from "../payments_node.js";
+import type * as settings from "../settings.js";
 import type * as users from "../users.js";
 
 import type {
@@ -28,9 +29,10 @@ declare const fullApi: ApiFromModules<{
   availability: typeof availability;
   bookings: typeof bookings;
   calendar: typeof calendar;
-  donations: typeof donations;
+  email: typeof email;
   payments: typeof payments;
   payments_node: typeof payments_node;
+  settings: typeof settings;
   users: typeof users;
 }>;
 

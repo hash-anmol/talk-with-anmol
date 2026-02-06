@@ -23,11 +23,35 @@ function ConfirmationContent() {
 
   useEffect(() => {
     if (!bookingId) return;
+    const paymentId = searchParams.get("razorpay_payment_id");
+    const paymentLinkId = searchParams.get("razorpay_payment_link_id");
+    const paymentStatus = searchParams.get("razorpay_payment_link_status");
+    const signature = searchParams.get("razorpay_signature");
+
+    if (paymentId && paymentLinkId && paymentStatus && signature) {
+      const params = new URLSearchParams();
+      params.set("booking", bookingId);
+      params.set("razorpay_payment_id", paymentId);
+      params.set("razorpay_payment_link_id", paymentLinkId);
+      params.set("razorpay_payment_link_reference_id", bookingId);
+      params.set("razorpay_payment_link_status", paymentStatus);
+      params.set("razorpay_signature", signature);
+      fetch(`/api/razorpay/confirm?${params.toString()}`).catch(() => null);
+    }
+
     const fetchStatus = async () => {
-      const res = await fetch(`/api/booking-status?bookingId=${bookingId}`);
-      const json = await res.json();
-      setData(json);
-      setLoading(false);
+      try {
+        const res = await fetch(`/api/booking-status?bookingId=${bookingId}`);
+        if (!res.ok) {
+          throw new Error("Unable to load booking status");
+        }
+        const json = await res.json();
+        setData(json);
+      } catch {
+        setData({ status: "pending_payment" });
+      } finally {
+        setLoading(false);
+      }
     };
     fetchStatus();
     const interval = setInterval(fetchStatus, 8000);
@@ -56,6 +80,11 @@ function ConfirmationContent() {
           <p>
             Status: <strong className="text-[#1e1a16]">{data.status}</strong>
           </p>
+          {data.status === "cancelled" && (
+            <p className="text-[#6b5b4e]">
+              Payment failed. Please go back and try again.
+            </p>
+          )}
           {startLabel && (
             <p>
               Session time: <strong className="text-[#1e1a16]">{startLabel}</strong>

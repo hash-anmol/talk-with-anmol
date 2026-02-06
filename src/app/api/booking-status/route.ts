@@ -14,12 +14,31 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const booking = await client.query(api.bookings.getBooking, { bookingId: bookingId as any });
+    const booking = await client.query(api.bookings.getBooking, {
+      bookingId: bookingId as any,
+    });
     if (!booking) {
       return NextResponse.json({ status: "not_found" });
     }
+
+    let status = booking.status;
+
+    if (status === "pending_payment") {
+      const payments = await client.query(api.payments.getPaymentsByBooking, {
+        bookingId: bookingId as any,
+      });
+      const hasCaptured = payments.some((p) => p.status === "captured");
+      const hasFailed = payments.some((p) => p.status === "failed");
+
+      if (hasCaptured) {
+        status = "confirmed";
+      } else if (hasFailed) {
+        status = "cancelled";
+      }
+    }
+
     return NextResponse.json({
-      status: booking.status,
+      status,
       slotStart: booking.slotStart,
       slotEnd: booking.slotEnd,
       recordingRequested: booking.recordingRequested,

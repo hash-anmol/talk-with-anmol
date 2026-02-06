@@ -8,17 +8,13 @@ const assetPrefix =
 
 const nextConfig: NextConfig = {
   assetPrefix,
-  async rewrites() {
-    return [
+  images: {
+    remotePatterns: [
       {
-        source: "/talkwithanmol/_next/:path*",
-        destination: "/_next/:path*",
+        protocol: "https",
+        hostname: "talk-with-anmol.vercel.app",
       },
-      {
-        source: "/talkwithanmol/:path*",
-        destination: "/:path*",
-      },
-    ];
+    ],
   },
 };
 

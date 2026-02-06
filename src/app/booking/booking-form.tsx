@@ -23,7 +23,8 @@ export default function BookingForm() {
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [recording, setRecording] = useState(false);
+  const [recording, setRecording] = useState(true);
+  const [testMode, setTestMode] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -42,7 +43,8 @@ export default function BookingForm() {
   }, [date, bookingType]);
 
   const basePrice = bookingType === "quick" ? 250 : 600;
-  const price = useMemo(() => (recording ? basePrice + 200 : basePrice), [recording, basePrice]);
+  const computedPrice = useMemo(() => (recording ? basePrice + 200 : basePrice), [recording, basePrice]);
+  const price = testMode ? 1 : computedPrice;
 
   const submit = async () => {
     setError(null);
@@ -62,6 +64,7 @@ export default function BookingForm() {
           slotStart: selectedSlot.start,
           slotEnd: selectedSlot.end,
           bookingType,
+          testMode,
         }),
       });
       const data = await res.json();
@@ -155,13 +158,74 @@ export default function BookingForm() {
               })}
             </div>
           </div>
+          <div
+            onClick={() => setRecording(!recording)}
+            className={`flex cursor-pointer items-center justify-between rounded-2xl border-2 p-5 transition-all duration-300 ${
+              recording
+                ? "border-orange-400 bg-orange-50/50 shadow-md ring-1 ring-orange-200"
+                : "border-[#e7ded2] bg-white opacity-70"
+            }`}
+          >
+            <div className="flex items-center gap-4">
+              <div
+                className={`flex h-6 w-6 items-center justify-center rounded-md border-2 transition-all ${
+                  recording
+                    ? "border-orange-600 bg-orange-600"
+                    : "border-[#d0c5b4]"
+                }`}
+              >
+                {recording && (
+                  <svg
+                    className="h-4 w-4 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={3}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </div>
+              <div>
+                <p
+                  className={`font-black tracking-tight transition-all ${
+                    recording ? "text-orange-900 text-lg" : "text-[#6b5b4e]"
+                  }`}
+                >
+                  Add Session Recording
+                </p>
+                <p className="text-xs font-medium text-[#7b6a5f]">
+                  Get a high-quality video & audio recording to revisit
+                  anytime. Highly recommended!
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-end">
+              <span
+                className={`font-black transition-all ${
+                  recording ? "text-orange-700 text-xl" : "text-[#6b5b4e]"
+                }`}
+              >
+                ₹200
+              </span>
+              {recording && (
+                <span className="text-[10px] font-bold uppercase tracking-wider text-orange-600">
+                  Recommended
+                </span>
+              )}
+            </div>
+          </div>
           <label className="flex items-center gap-2 text-sm text-[#6b5b4e]">
             <input
               type="checkbox"
-              checked={recording}
-              onChange={(event) => setRecording(event.target.checked)}
+              checked={testMode}
+              onChange={(event) => setTestMode(event.target.checked)}
             />
-            Add recording for ₹200
+            Test mode (₹1)
           </label>
           {error && <p className="text-sm text-red-600">{error}</p>}
         </div>
@@ -172,11 +236,11 @@ export default function BookingForm() {
             </p>
             <div className="mt-3 flex items-center justify-between text-sm">
               <span>Session fee</span>
-              <span>₹{basePrice}</span>
+              <span>₹{testMode ? 1 : basePrice}</span>
             </div>
             <div className="mt-2 flex items-center justify-between text-sm">
               <span>Recording</span>
-              <span>{recording ? "₹200" : "—"}</span>
+              <span>{recording && !testMode ? "₹200" : "—"}</span>
             </div>
             <div className="mt-4 flex items-center justify-between text-base font-semibold">
               <span>Total</span>

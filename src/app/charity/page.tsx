@@ -2,29 +2,45 @@ import Link from "next/link";
 import { getConvexClient } from "@/lib/convexServer";
 import { api } from "@/../convex/_generated/api";
 
-async function getDonations() {
+type Payment = {
+  _id: string;
+  amount: number;
+  status: string;
+  createdAt: number;
+  booking: {
+    _id: string;
+    slotStart: string;
+    bookingType: string;
+  } | null;
+  user: {
+    name: string;
+    email: string;
+  } | null;
+};
+
+async function getPaymentsData() {
   const client = getConvexClient();
-  if (!client) return [];
+  if (!client) return { payments: [], stats: { totalRevenue: 0, totalDonated: 0 } };
   try {
-    const data = await client.query(api.donations.list, {});
-    return data ?? [];
+    const payments = await client.query(api.admin.listPayments, {});
+    const capturedPayments = payments.filter((p: Payment) => p.status === "captured");
+    const totalRevenue = capturedPayments.reduce((sum: number, p: Payment) => sum + p.amount, 0);
+    
+    // For now, assume all captured payments are donated (100% charity model)
+    return {
+      payments: capturedPayments,
+      stats: {
+        totalRevenue,
+        totalDonated: totalRevenue, // 100% donation model
+      },
+    };
   } catch {
-    return [];
+    return { payments: [], stats: { totalRevenue: 0, totalDonated: 0 } };
   }
 }
 
 export default async function CharityPage() {
-  const donations = await getDonations();
-  const totalCollected = donations.reduce(
-    (sum: number, item: { amount: number }) => sum + item.amount,
-    0
-  );
-  const totalDonated = donations.reduce(
-    (sum: number, item: { donated: boolean; amount: number }) =>
-      item.donated ? sum + item.amount : sum,
-    0
-  );
-  const pending = totalCollected - totalDonated;
+  const { payments, stats } = await getPaymentsData();
 
   return (
     <div className="page-shell py-12 px-6">
@@ -36,62 +52,54 @@ export default async function CharityPage() {
           </p>
         </header>
 
-        <section className="grid gap-6 md:grid-cols-3">
+        <section className="grid gap-6 md:grid-cols-2">
           <div className="card p-6 border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <p className="text-xs uppercase tracking-[0.2em] font-bold text-orange-600">
               Total collected
             </p>
-            <p className="mt-2 text-3xl font-bold">₹{totalCollected}</p>
+            <p className="mt-2 text-3xl font-bold">₹{stats.totalRevenue}</p>
           </div>
           <div className="card p-6 border-none shadow-lg bg-green-50/50">
             <p className="text-xs uppercase tracking-[0.2em] font-bold text-green-700">
               Total donated
             </p>
-            <p className="mt-2 text-3xl font-bold text-green-700">₹{totalDonated}</p>
-          </div>
-          <div className="card p-6 border-none shadow-lg bg-orange-50/50">
-            <p className="text-xs uppercase tracking-[0.2em] font-bold text-orange-700">
-              Pending donation
-            </p>
-            <p className="mt-2 text-3xl font-bold text-orange-700">₹{pending}</p>
+            <p className="mt-2 text-3xl font-bold text-green-700">₹{stats.totalDonated}</p>
           </div>
         </section>
 
         <section className="card p-8 border-none shadow-xl">
-          <h2 className="text-2xl font-bold mb-6">Donation ledger</h2>
+          <h2 className="text-2xl font-bold mb-6">Session Ledger</h2>
           <div className="space-y-4">
-            {donations.length === 0 && (
-              <p className="text-[#9b8b7b] italic text-center py-10">No donations logged yet. Be the first to book!</p>
+            {payments.length === 0 && (
+              <p className="text-[#9b8b7b] italic text-center py-10">No sessions completed yet. Be the first to book!</p>
             )}
-            {donations.map(
-              (item: {
-                _id: string;
-                date: string;
-                amount: number;
-                note?: string;
-                donated: boolean;
-              }) => (
-                <div
-                  key={item._id}
-                  className="flex flex-col gap-2 rounded-2xl border border-orange-100 bg-orange-50/10 p-5 hover:bg-orange-50/30 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-[#3b2f26]">₹{item.amount}</span>
-                    <span
-                      className={`pill px-4 py-1.5 ${
-                        item.donated ? "bg-green-100 text-green-700 border-none" : "bg-orange-100 text-orange-700 border-none"
-                      }`}
-                    >
-                      {item.donated ? "✓ Donated" : "• Pending"}
-                    </span>
-                  </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-sm text-[#6b5b4e]">
-                    <p className="font-medium">{item.date}</p>
-                    {item.note && <p className="italic">"{item.note}"</p>}
-                  </div>
+            {payments.map((payment: Payment) => (
+              <div
+                key={payment._id}
+                className="flex flex-col gap-2 rounded-2xl border border-orange-100 bg-orange-50/10 p-5 hover:bg-orange-50/30 transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold text-[#3b2f26]">₹{payment.amount}</span>
+                  <span className="pill px-4 py-1.5 bg-green-100 text-green-700 border-none">
+                    Donated
+                  </span>
                 </div>
-              )
-            )}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-sm text-[#6b5b4e]">
+                  <p className="font-medium">
+                    {payment.booking?.slotStart 
+                      ? new Date(payment.booking.slotStart).toLocaleDateString("en-IN", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Session completed"}
+                  </p>
+                  <p className="italic">
+                    {payment.booking?.bookingType === "strategy" ? "Strategy Session" : "Quick Session"}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 

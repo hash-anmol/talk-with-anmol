@@ -2,16 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import profileImage from "@/../public/images/image.png";
+import profileImage from "../../public/images/image.png";
+import { useEffect } from "react";
 
 const heroLine =
   "Founder of Luke AI. I build AI agents that solve real problems. Let's talk about AI, startups, and what you're building.";
 
 export default function Home() {
   const remainingSlots = useQuery(api.bookings.getRemainingSlots);
-  const confirmedCount = 4;
+  const confirmedCountFromDb = useQuery(api.bookings.getConfirmedBookingCount);
+  const incrementExtra = useMutation(api.bookings.incrementExtraBookings);
+  
+  useEffect(() => {
+    incrementExtra();
+  }, [incrementExtra]);
+
+  const confirmedCount = confirmedCountFromDb !== undefined ? confirmedCountFromDb + 4 : 4;
   const rating = "5.0/5";
 
   return (
@@ -34,6 +42,7 @@ export default function Home() {
                   width={160}
                   height={160}
                   className="h-full w-full object-cover"
+                  unoptimized
                 />
               </div>
               <div>

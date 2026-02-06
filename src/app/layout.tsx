@@ -16,7 +16,7 @@ const sans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Session-to-Charity Booking Platform",
+  title: "Talk with me",
   description:
     "Book a 1-on-1 session, support charity, and get a Google Meet invite instantly.",
 };

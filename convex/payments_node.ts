@@ -58,14 +58,20 @@ export const createPaymentLink = action({
 
 export const storePaymentAction = action({
   args: {
+    bookingId: v.id("bookings"),
     razorpayPaymentId: v.string(),
     razorpayOrderId: v.optional(v.string()),
     razorpayLinkId: v.optional(v.string()),
     amount: v.number(),
     currency: v.string(),
-    status: v.string(),
+    status: v.union(
+      v.literal("created"),
+      v.literal("authorized"),
+      v.literal("captured"),
+      v.literal("refunded"),
+      v.literal("failed")
+    ),
     capturedAt: v.optional(v.number()),
-    notes: v.any(),
     rawPayload: v.any(),
   },
   handler: async (ctx, args): Promise<string> => {
