@@ -20,23 +20,6 @@ export default function Home() {
         "Topmate took a cut of the session money, so instead I vibe coded Topmate killer in 1 day 🚀"
       </div>
 
-      {/* Testimonial */}
-      <div className="mb-12 max-w-2xl w-full">
-        <div className="card bg-white/80 backdrop-blur-md p-8 rounded-[2rem] border-none shadow-xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500/20"></div>
-          <svg className="absolute top-4 right-6 h-12 w-12 text-black/5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H21.017C21.5693 4 22.017 4.44772 22.017 5V15C22.017 17.7614 19.7784 20 17.017 20H14.017V21ZM5 21V18C5 16.8954 5.89543 16 7 16H10C10.5523 16 11 15.5523 11 15V9C11 8.44772 10.5523 8 10 8H6C5.44772 8 5 7.55228 5 7V5C5 4.44772 5.44772 4 6 4H12C12.5523 4 13 4.44772 13 5V15C13 17.7614 10.7614 20 8 20H5V21Z" />
-          </svg>
-          <p className="text-xl font-bold text-[#1e1a16] leading-relaxed relative z-10 italic">
-            "Bhai Maine Kai creator Dekhe per Aap Jaisa Kahin Nahin Dekha thank u so Mach Meri help karne ke liye"
-          </p>
-          <div className="mt-4 flex items-center gap-2">
-            <div className="h-px w-8 bg-black/10"></div>
-            <span className="text-sm font-black text-black/40 uppercase tracking-widest">xx_anish143</span>
-          </div>
-        </div>
-      </div>
-
       <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 lg:grid-cols-12 gap-8 lg:items-stretch">
         
         {/* Left Panel - Sidebar (Orange Card) */}
@@ -165,8 +148,8 @@ export default function Home() {
                   <div className="flex flex-col">
                     <span className="text-[10px] font-black text-[#9b8b7b] uppercase tracking-widest leading-none mb-1">Total Fee</span>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-5xl font-black text-orange-600 leading-none tracking-tighter">₹500</span>
-                      <span className="text-base text-[#9b8b7b] line-through font-bold">₹999</span>
+                      <span className="text-5xl font-black text-orange-600 leading-none tracking-tighter">₹600</span>
+                      <span className="text-base text-[#9b8b7b] line-through font-bold">₹1200</span>
                     </div>
                   </div>
                   <div className="text-right flex flex-col items-end">
@@ -180,11 +163,28 @@ export default function Home() {
             </section>
           </div>
 
+          {/* Testimonial Section */}
+          <div className="w-full">
+            <div className="card bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] border-none shadow-lg relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500/20"></div>
+              <svg className="absolute top-6 right-8 h-16 w-16 text-black/5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H21.017C21.5693 4 22.017 4.44772 22.017 5V15C22.017 17.7614 19.7784 20 17.017 20H14.017V21ZM5 21V18C5 16.8954 5.89543 16 7 16H10C10.5523 16 11 15.5523 11 15V9C11 8.44772 10.5523 8 10 8H6C5.44772 8 5 7.55228 5 7V5C5 4.44772 5.44772 4 6 4H12C12.5523 4 13 4.44772 13 5V15C13 17.7614 10.7614 20 8 20H5V21Z" />
+              </svg>
+              <p className="text-2xl font-bold text-[#1e1a16] leading-relaxed relative z-10 italic pr-12">
+                "Bhai Maine Kai creator Dekhe per Aap Jaisa Kahin Nahin Dekha thank u so Mach Meri help karne ke liye"
+              </p>
+              <div className="mt-6 flex items-center gap-3">
+                <div className="h-px w-10 bg-black/10"></div>
+                <span className="text-sm font-black text-black/40 uppercase tracking-[0.2em]">xx_anish143</span>
+              </div>
+            </div>
+          </div>
+
           {/* About Me */}
           <section className="card fade-in flex flex-col gap-6 p-10 rounded-[2.5rem] shadow-lg">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h3 className="text-2xl font-black tracking-tight">About me</h3>
+                <h3 className="text-2xl font-black tracking-tight text-[#1e1a16]">About me</h3>
                 <p className="mt-3 text-base leading-relaxed text-[#6b5b4e] max-w-2xl font-medium">
                   I'm building <strong>Luke AI</strong> — helping creators automate workflows. I work with folks who want clarity on AI agents without the hype. I run an AI automation agency, SunbloomAI, where we build advanced Agentic systems.
                 </p>
@@ -212,7 +212,7 @@ export default function Home() {
                 </svg>
               </div>
               <div>
-                <h4 className="text-xl font-black tracking-tight">Charity Ledger</h4>
+                <h4 className="text-xl font-black tracking-tight text-[#1e1a16]">Charity Ledger</h4>
                 <p className="mt-3 text-sm leading-relaxed text-[#6b5b4e] font-medium">
                   100% of proceeds are donated. Publicly tracked and transparent. No NGO claims, just honest impact.
                 </p>
@@ -225,7 +225,7 @@ export default function Home() {
             {/* Recording Card */}
             <section className="card flex flex-col justify-between border-none bg-indigo-50/40 p-8 shadow-xl rounded-[2.5rem]">
               <div>
-                <h4 className="text-xl font-black tracking-tight">Session Recording</h4>
+                <h4 className="text-xl font-black tracking-tight text-[#1e1a16]">Session Recording</h4>
                 <p className="mt-3 text-sm leading-relaxed text-[#6b5b4e] font-medium">
                   Keep a high-quality copy of our chat to share with your team or rewatch later.
                 </p>
