@@ -102,6 +102,19 @@ export const initializeSettings = mutation({
   },
 });
 
+export const deleteGlobalSetting = mutation({
+  args: { key: v.string() },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("globalSettings")
+      .withIndex("by_key", (q) => q.eq("key", args.key))
+      .unique();
+    if (existing) {
+      await ctx.db.delete(existing._id);
+    }
+  },
+});
+
 // Admin credentials management
 export const getAdminCredentials = query({
   handler: async (ctx) => {
