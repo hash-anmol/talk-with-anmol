@@ -32,7 +32,7 @@ export default function BookingForm() {
     setLoading(true);
     setError(null);
     const duration = bookingType === "quick" ? 10 : 45;
-    fetch(`/talkwithanmol/api/availability?date=${date}&duration=${duration}`)
+    fetch(`/api/availability?date=${date}&duration=${duration}`)
       .then((res) => res.json())
       .then((data) => {
         setSlots(data.slots || []);
@@ -52,7 +52,7 @@ export default function BookingForm() {
     }
     setSubmitting(true);
     try {
-      const res = await fetch("/talkwithanmol/api/booking", {
+      const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

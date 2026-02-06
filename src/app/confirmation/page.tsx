@@ -24,7 +24,7 @@ function ConfirmationContent() {
   useEffect(() => {
     if (!bookingId) return;
     const fetchStatus = async () => {
-      const res = await fetch(`/talkwithanmol/api/booking-status?bookingId=${bookingId}`);
+      const res = await fetch(`/api/booking-status?bookingId=${bookingId}`);
       const json = await res.json();
       setData(json);
       setLoading(false);
