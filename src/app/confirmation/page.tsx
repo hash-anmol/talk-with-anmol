@@ -77,13 +77,34 @@ function ConfirmationContent() {
 
       {bookingId && !loading && data && (
         <div className="space-y-3 text-sm text-[#6b5b4e]">
-          <p>
-            Status: <strong className="text-[#1e1a16]">{data.status}</strong>
-          </p>
-          {data.status === "cancelled" && (
-            <p className="text-[#6b5b4e]">
-              Payment failed. Please go back and try again.
-            </p>
+          {data.status === "pending_payment" ? (
+            <div className="space-y-4">
+              <div className="rounded-lg bg-green-50 border border-green-200 p-4">
+                <p className="font-medium text-green-800">
+                  Your request has been accepted!
+                </p>
+                <p className="mt-2 text-green-700">
+                  Please check your mailbox after 10 minutes for the confirmation email with your calendar invite and meeting link.
+                </p>
+              </div>
+              <p className="text-[#6b5b4e]">
+                If you don&apos;t receive the email or have any questions, please reach out to me at{" "}
+                <a href="mailto:anmolmalik.oss@gmail.com" className="text-[#1e1a16] underline">
+                  anmolmalik.oss@gmail.com
+                </a>
+              </p>
+            </div>
+          ) : (
+            <>
+              <p>
+                Status: <strong className="text-[#1e1a16]">{data.status}</strong>
+              </p>
+              {data.status === "cancelled" && (
+                <p className="text-[#6b5b4e]">
+                  Payment failed. Please go back and try again.
+                </p>
+              )}
+            </>
           )}
           {startLabel && (
             <p>
@@ -98,7 +119,9 @@ function ConfirmationContent() {
               Join Google Meet
             </a>
           )}
-          <p>Calendar invite has been sent to your email.</p>
+          {data.status !== "pending_payment" && (
+            <p>Calendar invite has been sent to your email.</p>
+          )}
         </div>
       )}
     </section>
@@ -112,7 +135,7 @@ export default function ConfirmationPage() {
         <header className="card p-6">
           <h1 className="text-3xl font-semibold">Booking confirmation</h1>
           <p className="mt-2 text-sm text-[#6b5b4e]">
-            We are verifying your payment and creating the calendar invite.
+            Thank you for booking! We are processing your request.
           </p>
         </header>
 

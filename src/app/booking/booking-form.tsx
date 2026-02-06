@@ -24,7 +24,6 @@ export default function BookingForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [recording, setRecording] = useState(true);
-  const [testMode, setTestMode] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -43,8 +42,7 @@ export default function BookingForm() {
   }, [date, bookingType]);
 
   const basePrice = bookingType === "quick" ? 250 : 600;
-  const computedPrice = useMemo(() => (recording ? basePrice + 200 : basePrice), [recording, basePrice]);
-  const price = testMode ? 1 : computedPrice;
+  const price = useMemo(() => (recording ? basePrice + 200 : basePrice), [recording, basePrice]);
 
   const submit = async () => {
     setError(null);
@@ -64,7 +62,6 @@ export default function BookingForm() {
           slotStart: selectedSlot.start,
           slotEnd: selectedSlot.end,
           bookingType,
-          testMode,
         }),
       });
       const data = await res.json();
@@ -219,14 +216,7 @@ export default function BookingForm() {
               )}
             </div>
           </div>
-          <label className="flex items-center gap-2 text-sm text-[#6b5b4e]">
-            <input
-              type="checkbox"
-              checked={testMode}
-              onChange={(event) => setTestMode(event.target.checked)}
-            />
-            Test mode (₹1)
-          </label>
+
           {error && <p className="text-sm text-red-600">{error}</p>}
         </div>
         <div className="flex flex-col gap-4">
@@ -236,11 +226,11 @@ export default function BookingForm() {
             </p>
             <div className="mt-3 flex items-center justify-between text-sm">
               <span>Session fee</span>
-              <span>₹{testMode ? 1 : basePrice}</span>
+              <span>₹{basePrice}</span>
             </div>
             <div className="mt-2 flex items-center justify-between text-sm">
               <span>Recording</span>
-              <span>{recording && !testMode ? "₹200" : "—"}</span>
+              <span>{recording ? "₹200" : "—"}</span>
             </div>
             <div className="mt-4 flex items-center justify-between text-base font-semibold">
               <span>Total</span>
