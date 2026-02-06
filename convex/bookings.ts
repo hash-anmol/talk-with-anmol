@@ -169,30 +169,8 @@ export const getConfirmedBookingCount = query({
       .withIndex("by_status", (q) => q.eq("status", "completed"))
       .collect();
     
-    // Starting with a base of 4 as seen in the UI, or just return total
-    const extra = await ctx.db
-      .query("globalSettings")
-      .withIndex("by_key", (q) => q.eq("key", "extraBookings"))
-      .unique();
-    const extraCount = extra ? (extra.value as number) : 0;
-    
-    return confirmedBookings.length + completedBookings.length + extraCount;
-  },
-});
-
-export const incrementExtraBookings = mutation({
-  args: {},
-  handler: async (ctx) => {
-    const extra = await ctx.db
-      .query("globalSettings")
-      .withIndex("by_key", (q) => q.eq("key", "extraBookings"))
-      .unique();
-    
-    if (extra) {
-      await ctx.db.patch(extra._id, { value: (extra.value as number) + 1 });
-    } else {
-      await ctx.db.insert("globalSettings", { key: "extraBookings", value: 1 });
-    }
+    // Return actual confirmed + completed bookings count
+    return confirmedBookings.length + completedBookings.length;
   },
 });
 

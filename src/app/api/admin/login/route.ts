@@ -37,6 +37,13 @@ export async function POST(request: Request) {
   }
 
   if (!adminEmail || (!adminPasswordHash && !envPass)) {
+    console.error("Admin Login Error: Missing credentials in both DB and Environment", {
+      hasDbEmail: !!adminEmail,
+      hasDbHash: !!adminPasswordHash,
+      hasEnvEmail: !!envEmail,
+      hasEnvHash: !!envHash,
+      hasEnvPass: !!envPass
+    });
     return NextResponse.json(
       { error: "Admin credentials not configured" },
       { status: 500 }
