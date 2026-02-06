@@ -12,7 +12,7 @@ export const createBookingIntent = mutation({
     bookingType: v.union(v.literal("strategy"), v.literal("quick")),
   },
   handler: async (ctx, args) => {
-    const basePrice = args.bookingType === "strategy" ? 500 : 200;
+    const basePrice = args.bookingType === "strategy" ? 500 : 250;
     const price = args.recording ? basePrice + 200 : basePrice;
     const bookingId = await ctx.db.insert("bookings", {
       customerName: args.name,

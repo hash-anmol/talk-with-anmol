@@ -10,14 +10,31 @@ const heroLine =
 
 export default function Home() {
   const remainingSlots = useQuery(api.bookings.getRemainingSlots);
-  const bookings = useQuery(api.bookings.listBookings);
-  const confirmedCount = bookings?.filter(b => b.status === "confirmed").length ?? 4;
+  const confirmedCount = 4;
+  const rating = "5.0/5";
 
   return (
     <div className="page-shell min-h-screen p-4 lg:p-8 flex flex-col items-center">
       {/* Banner */}
       <div className="mb-8 rounded-full bg-[#1f1a16]/5 px-6 py-2 text-xs font-medium text-[#1f1a16]/60 border border-[#1f1a16]/10 backdrop-blur-sm text-center">
         "Topmate took a cut of the session money, so instead I vibe coded Topmate killer in 1 day 🚀"
+      </div>
+
+      {/* Testimonial */}
+      <div className="mb-12 max-w-2xl w-full">
+        <div className="card bg-white/80 backdrop-blur-md p-8 rounded-[2rem] border-none shadow-xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500/20"></div>
+          <svg className="absolute top-4 right-6 h-12 w-12 text-black/5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H21.017C21.5693 4 22.017 4.44772 22.017 5V15C22.017 17.7614 19.7784 20 17.017 20H14.017V21ZM5 21V18C5 16.8954 5.89543 16 7 16H10C10.5523 16 11 15.5523 11 15V9C11 8.44772 10.5523 8 10 8H6C5.44772 8 5 7.55228 5 7V5C5 4.44772 5.44772 4 6 4H12C12.5523 4 13 4.44772 13 5V15C13 17.7614 10.7614 20 8 20H5V21Z" />
+          </svg>
+          <p className="text-xl font-bold text-[#1e1a16] leading-relaxed relative z-10 italic">
+            "Bhai Maine Kai creator Dekhe per Aap Jaisa Kahin Nahin Dekha thank u so Mach Meri help karne ke liye"
+          </p>
+          <div className="mt-4 flex items-center gap-2">
+            <div className="h-px w-8 bg-black/10"></div>
+            <span className="text-sm font-black text-black/40 uppercase tracking-widest">xx_anish143</span>
+          </div>
+        </div>
       </div>
 
       <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 lg:grid-cols-12 gap-8 lg:items-stretch">
@@ -70,7 +87,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="card flex flex-1 flex-col items-center justify-center gap-1 border-none bg-white/95 p-4 text-center text-black shadow-lg hover:scale-105 transition-all duration-300 rounded-2xl">
-                <span className="text-3xl font-black">5.0</span>
+                <span className="text-3xl font-black">{rating}</span>
                 <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
                   Ratings
                 </span>
@@ -111,7 +128,10 @@ export default function Home() {
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="text-[10px] font-black text-emerald-800/40 uppercase tracking-widest leading-none mb-1">Total Fee</span>
-                    <span className="text-7xl font-black text-emerald-600 tracking-tighter leading-none">₹200</span>
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-7xl font-black text-emerald-600 tracking-tighter leading-none">₹250</span>
+                      <span className="text-xl text-[#9b8b7b] line-through decoration-emerald-500/30 font-bold">₹500</span>
+                    </div>
                   </div>
                   <div className="text-right flex flex-col items-end">
                      <span className="text-[10px] font-bold text-[#9b8b7b] uppercase tracking-tighter">Limited slots</span>
@@ -119,35 +139,41 @@ export default function Home() {
                   </div>
                 </div>
                 <Link href="/booking?type=quick" className="btn-primary bg-emerald-600 px-10 py-6 text-xl font-black shadow-[0_15px_35px_rgba(16,185,129,0.4)] hover:shadow-emerald-400/60 hover:bg-emerald-700 hover:-translate-y-2 transition-all active:scale-95 rounded-[1.5rem] text-center border-b-4 border-emerald-800 uppercase tracking-widest">
-                  BOOK NOW ⚡
+                  BOOK NOW 🚀
                 </Link>
               </div>
             </section>
 
             {/* 45-min Session Card */}
-            <section className="card fade-in flex flex-col justify-between border-none p-8 shadow-xl rounded-[2.5rem] opacity-95 hover:opacity-100 transition-all">
+            <section className="card fade-in flex flex-col justify-between border-none p-8 shadow-[0_20px_50px_rgba(30,26,22,0.05)] ring-4 ring-orange-500/20 relative rounded-[2.5rem] transform lg:scale-[1.02] lg:translate-y-2 opacity-95 hover:opacity-100 transition-all">
               <div>
                 <div className="mb-6 flex items-center justify-between">
-                  <span className="pill bg-orange-100 text-orange-800 px-3 py-1 text-xs font-bold uppercase tracking-wider">Video Call · 45 mins</span>
+                  <span className="pill bg-orange-100 text-orange-800 px-4 py-2 text-xs font-black uppercase tracking-wider">Video Call · 45 mins</span>
                   <span className="text-sm font-bold text-orange-600">⭐ 5.0</span>
                 </div>
-                <h2 className="mb-4 text-2xl font-bold">1:1 AI Strategy</h2>
-                <div className="text-xs font-bold text-red-600/80 mb-4 uppercase tracking-widest">
+                <h2 className="mb-4 text-4xl font-black tracking-tight text-[#1e1a16]">1:1 AI Strategy</h2>
+                <div className="text-xs font-bold text-red-600/80 mb-4 uppercase tracking-widest flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-red-600"></span>
                   only {remainingSlots?.strategy ?? 5} slots left
                 </div>
-                <p className="mb-6 text-base leading-relaxed text-[#6b5b4e]">
+                <p className="mb-8 text-base leading-relaxed text-[#6b5b4e] font-medium">
                   In-depth session for complex problems. Google Meet call. Map AI agents into your work with real tools.
                 </p>
               </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-bold text-[#9b8b7b] uppercase">Price</span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-black text-orange-600 leading-none">₹500</span>
-                    <span className="text-sm text-[#9b8b7b] line-through">₹700</span>
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black text-[#9b8b7b] uppercase tracking-widest leading-none mb-1">Total Fee</span>
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-5xl font-black text-orange-600 leading-none tracking-tighter">₹500</span>
+                      <span className="text-base text-[#9b8b7b] line-through font-bold">₹999</span>
+                    </div>
+                  </div>
+                  <div className="text-right flex flex-col items-end">
+                     <span className="text-[10px] font-bold text-[#9b8b7b] uppercase tracking-tighter">Verified session</span>
                   </div>
                 </div>
-                <Link href="/booking" className="btn-secondary px-8 py-3 text-sm border-orange-200 text-orange-700 font-bold hover:bg-orange-50 rounded-xl transition-all">
+                <Link href="/booking" className="btn-secondary px-10 py-6 text-lg font-black border-orange-200 text-orange-700 hover:bg-orange-50 rounded-[1.5rem] transition-all text-center uppercase tracking-widest">
                   Book Strategy
                 </Link>
               </div>
@@ -210,9 +236,7 @@ export default function Home() {
             </section>
           </div>
         </main>
-
       </div>
     </div>
   );
 }
-

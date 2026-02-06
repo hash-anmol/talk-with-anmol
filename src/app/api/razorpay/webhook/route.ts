@@ -66,10 +66,10 @@ export async function POST(request: Request) {
       });
 
       await client.mutation(api.bookings.confirmBooking, {
-        bookingId,
+        bookingId: bookingId as any,
         paymentId: paymentEntity.id,
-        calendarEventId: calendar.calendarEventId,
-        meetLink: calendar.meetLink,
+        calendarEventId: calendar.calendarEventId || undefined,
+        meetLink: calendar.meetLink || undefined,
       });
     }
   }

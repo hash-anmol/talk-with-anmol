@@ -41,7 +41,7 @@ export default function BookingForm() {
       .finally(() => setLoading(false));
   }, [date, bookingType]);
 
-  const basePrice = bookingType === "quick" ? 200 : 500;
+  const basePrice = bookingType === "quick" ? 250 : 500;
   const price = useMemo(() => (recording ? basePrice + 200 : basePrice), [recording, basePrice]);
 
   const submit = async () => {
