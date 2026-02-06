@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import profileImage from "@/../public/images/image.png";
 
 const heroLine =
   "Founder of Luke AI. I build AI agents that solve real problems. Let's talk about AI, startups, and what you're building.";
@@ -28,7 +29,7 @@ export default function Home() {
             <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
               <div className="h-40 w-40 overflow-hidden rounded-full border-[6px] border-white/60 shadow-2xl shrink-0">
                 <Image
-                  src="/images/image.png"
+                  src={profileImage}
                   alt="Anmol Malik"
                   width={160}
                   height={160}
