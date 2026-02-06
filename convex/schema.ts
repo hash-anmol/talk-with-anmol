@@ -5,6 +5,7 @@ export default defineSchema({
   users: defineTable({
     name: v.string(),
     email: v.string(),
+    passwordHash: v.optional(v.string()),
     role: v.union(v.literal("admin"), v.literal("customer")),
     createdAt: v.number(),
   }).index("by_email", ["email"]),

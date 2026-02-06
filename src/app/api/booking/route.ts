@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       process.env.NEXT_PUBLIC_BASE_URL ||
       "http://localhost:3000";
 
-    const callbackUrl = `${origin}/confirmation?booking=${booking.bookingId}`;
+    const callbackUrl = `${origin}/talkwithanmol/confirmation?booking=${booking.bookingId}`;
 
     const paymentLink = await client.action(api.payments_node.createPaymentLink, {
       bookingId: booking.bookingId,

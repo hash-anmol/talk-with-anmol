@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const booking = await client.query(api.bookings.getBooking, { bookingId });
+    const booking = await client.query(api.bookings.getBooking, { bookingId: bookingId as any });
     if (!booking) {
       return NextResponse.json({ status: "not_found" });
     }

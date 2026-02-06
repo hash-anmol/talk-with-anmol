@@ -1,5 +1,6 @@
 import BookingForm from "@/app/booking/booking-form";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function BookingPage() {
   return (
@@ -14,7 +15,9 @@ export default function BookingPage() {
           </p>
         </header>
 
-        <BookingForm />
+        <Suspense fallback={<div className="card p-6">Loading booking form...</div>}>
+          <BookingForm />
+        </Suspense>
 
         <div className="flex flex-wrap items-center gap-4">
           <Link href="/session" className="btn-secondary">

@@ -17,7 +17,7 @@ export default function DonationManager({ donations }: { donations: Donation[] }
 
   const markDonated = async (donationId: string) => {
     setLoadingId(donationId);
-    await fetch("/api/admin/donation", {
+    await fetch("/talkwithanmol/api/admin/donation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ donationId }),

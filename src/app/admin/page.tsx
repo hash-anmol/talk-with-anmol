@@ -15,7 +15,8 @@ async function getAdminData() {
 }
 
 export default async function AdminPage() {
-  const cookie = cookies().get(getAdminCookieName())?.value;
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get(getAdminCookieName())?.value;
   let isAuthed = false;
 
   if (cookie) {

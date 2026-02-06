@@ -15,6 +15,7 @@ import type * as calendar from "../calendar.js";
 import type * as donations from "../donations.js";
 import type * as payments from "../payments.js";
 import type * as payments_node from "../payments_node.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -30,6 +31,7 @@ declare const fullApi: ApiFromModules<{
   donations: typeof donations;
   payments: typeof payments;
   payments_node: typeof payments_node;
+  users: typeof users;
 }>;
 
 /**

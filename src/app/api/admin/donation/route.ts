@@ -5,7 +5,8 @@ import { api } from "@/../convex/_generated/api";
 import { getAdminCookieName, verifyAdminToken } from "@/lib/adminSession";
 
 export async function POST(request: Request) {
-  const cookie = cookies().get(getAdminCookieName())?.value;
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get(getAdminCookieName())?.value;
   if (!cookie) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
