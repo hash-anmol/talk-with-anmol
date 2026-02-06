@@ -1,13 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: "/talkwithanmol",
-  async redirects() {
+  async rewrites() {
     return [
       {
-        source: "/",
-        destination: "/talkwithanmol",
-        permanent: false,
+        source: "/talkwithanmol/_next/:path*",
+        destination: "/_next/:path*",
+      },
+      {
+        source: "/talkwithanmol/:path*",
+        destination: "/:path*",
       },
     ];
   },
